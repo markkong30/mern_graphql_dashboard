@@ -46,3 +46,8 @@ code {
 .icon {
 	margin-right: 5px;
 }
+
+.text-primary {
+	color: #df3ca6 !important;
+	opacity: 0.7;
+}

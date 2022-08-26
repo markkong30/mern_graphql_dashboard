@@ -3,7 +3,7 @@ import logo from "./assets/logo.png";
 
 const Header = () => {
 	return (
-		<nav className="navbar bg-light mb-4 py-2">
+		<nav className="navbar bg-light mb-5 py-2">
 			<div className="container">
 				<a className="navbar-brand" href="/">
 					<div className="d-flex">

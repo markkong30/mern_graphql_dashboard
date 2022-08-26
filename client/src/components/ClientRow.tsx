@@ -1,13 +1,31 @@
 import React from "react";
-import { IClient } from "../../types";
+import { IClient, IClients } from "../../types";
 import { FaTrash } from "react-icons/fa";
+import { useMutation } from "@apollo/client";
+import { DELETE_CLIENT } from "../mutations/ClientMutations";
+import { GET_CLIENTS } from "../queries/ClientQueries";
 
 interface IProps {
 	client: IClient;
 }
 
 const ClientRow: React.FC<IProps> = ({ client }) => {
-	const deleteClient = () => {};
+	const [deleteClient, { data, error, loading }] = useMutation(DELETE_CLIENT, {
+		variables: {
+			id: client.id,
+		},
+		// refetchQueries: [{ query: GET_CLIENTS }],
+		update(cache, { data: { deleteClient } }) {
+			const { clients }: IClients = cache.readQuery({ query: GET_CLIENTS })!;
+			console.log(clients);
+			cache.writeQuery({
+				query: GET_CLIENTS,
+				data: {
+					clients: clients.filter((client: IClient) => client.id !== deleteClient.id),
+				},
+			});
+		},
+	});
 
 	return (
 		<tr>
@@ -15,7 +33,7 @@ const ClientRow: React.FC<IProps> = ({ client }) => {
 			<td>{client.email}</td>
 			<td>{client.phone}</td>
 			<td>
-				<button className="btn btn-danger btn-sm" onClick={deleteClient}>
+				<button className="btn btn-danger btn-sm" onClick={() => deleteClient()}>
 					<FaTrash />
 				</button>
 			</td>
