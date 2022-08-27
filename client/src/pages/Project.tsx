@@ -4,6 +4,8 @@ import Spinner from "../components/Spinner";
 import { useQuery } from "@apollo/client";
 import { GET_PROJECT } from "../queries/ProjectQueries";
 import ClientInfo from "../components/ClientInfo";
+import DeleteModal from "../components/DeleteModal";
+import EditProject from "../components/EditProject";
 
 const Project = () => {
 	const { id } = useParams();
@@ -31,6 +33,10 @@ const Project = () => {
 					<p className="lead">{data.project.status}</p>
 
 					<ClientInfo client={data.project.client} />
+					<div className="d-flex justify-content-between mt-4">
+						<EditProject project={data.project} />
+						<DeleteModal projectName={data.project.name} />
+					</div>
 				</div>
 			)}
 		</>
